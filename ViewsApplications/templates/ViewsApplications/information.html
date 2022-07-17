@@ -11,16 +11,23 @@
 </head>
 <body>
 
+<div class="row mb-2">
+    <div class="col">ID Number : {{user.id_number}}</div>
+    <div class="col">Name : {{user.first_name}} {{user.last_name}}</div>
+</div>
 
-ID Number : {{user.id_number}}
-<br>
-Firstname : {{user.first_name}}
-<br>
-Lastname : {{user.last_name}}
-<br>
-Section : {{user.student.section.section}}
-<br>
-Adviser : {{user.student.section.adviser}}
+<div class="row">
+
+    <div class="col">
+        Section : {{user.student.section.section}}
+
+    </div>
+    <div class="col">
+        Adviser : {{user.student.section.adviser}}
+
+    </div>
+</div>
+
 
 <br>
 <br>

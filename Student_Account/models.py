@@ -61,7 +61,7 @@ class SubjectTeacher(models.Model):
         return f'{self.subject.subject_name}  | {self.teacher.user.first_name}'
     class Meta:
         constraints = [
-            UniqueConstraint(fields = ["teacher", "subject"], name = "Unique Subject Teacher")
+            UniqueConstraint(fields = ["teacher", "subject", "semester"], name = "Unique Subject Teacher")
         ]
 
 class StudentGrade(models.Model):

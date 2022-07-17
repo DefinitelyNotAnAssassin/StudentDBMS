@@ -6,8 +6,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from ViewsApplications.forms import AccountForm
-# Create your views here.
+from django.views.generic import ListView
 
+# Create your views here.
 
 def index(request):
     items = {
@@ -22,21 +23,21 @@ def login(request):
     if form.is_valid():
         user = authenticate(request, username = form.cleaned_data.get("username"), password = form.cleaned_data.get("password"))
         auth_login(request, user)
-        return HttpResponse("User successfully initiated")
+        url = redirect("student information")
+        return url
     else:
         return HttpResponse("Invalid User")
 
 @login_required
 def student_information(request):
-    
-    print(request.user.pk)
-    
 
     items = {
         "user" : request.user,
-        'subjects': request.user.student.subjects.all()
+        'subjects': request.user.student.subjects.all().order_by("semester")
     }
-    print(request.user.student.subjects)
+
+  
+  
     return render(request, "ViewsApplications/information.html", context = items)
 
 
@@ -47,7 +48,7 @@ def regisrar_module(request):
     if request.user.is_registrar:
         form = AccountForm()
         data = SubjectTeacher.objects.all()
-        
+        print(data.values())
         items = {
             "form": form,
             'data': data
