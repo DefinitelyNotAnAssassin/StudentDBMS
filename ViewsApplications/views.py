@@ -1,10 +1,11 @@
 from traceback import format_list
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from Student_Account.models import Account, StudentProfile, Class_Section
+from Student_Account.models import Account, StudentProfile, Class_Section, SubjectTeacher
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from ViewsApplications.forms import AccountForm
 # Create your views here.
 
 
@@ -39,9 +40,18 @@ def student_information(request):
     return render(request, "ViewsApplications/information.html", context = items)
 
 
+
+
 @login_required
 def regisrar_module(request):
     if request.user.is_registrar:
-     return render(request, "ViewsApplications/registrar_module.html")
+        form = AccountForm()
+        data = SubjectTeacher.objects.all()
+        
+        items = {
+            "form": form,
+            'data': data
+        }
+        return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
         return HttpResponse("You are not allowed here")
