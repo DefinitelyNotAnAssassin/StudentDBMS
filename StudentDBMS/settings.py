@@ -31,6 +31,7 @@ LOGIN_URL = "/"
 # Application definition
 
 INSTALLED_APPS = [
+    'system_api.apps.SystemApiConfig',
     'django_tables2',
     'ViewsApplications.apps.ViewsapplicationsConfig',
     'Student_Account.apps.StudentAccountConfig',

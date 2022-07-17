@@ -33,11 +33,9 @@ def student_information(request):
 
     items = {
         "user" : request.user,
-        'subjects': request.user.student.subjects.all().order_by("semester")
+        'subjects': request.user.student.grade.all()
     }
 
-  
-  
     return render(request, "ViewsApplications/information.html", context = items)
 
 

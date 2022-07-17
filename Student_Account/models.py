@@ -36,10 +36,9 @@ class StudentProfile(models.Model):
 
     user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="student")
     user.is_student = True
+    
     section = models.ForeignKey(Class_Section, on_delete=models.CASCADE, related_name="students")
-
-
-
+    
     def __str__(self):
         return self.user.username
 
@@ -56,7 +55,7 @@ class SubjectTeacher(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     SEMESTER_CHOICES = [("1st", "First Quarter"), ("2nd", 'Second Quarter'), ('3rd', 'Third Quarter'), ('4th', 'Fourth Quarter')]
     semester = models.CharField(choices = SEMESTER_CHOICES, default = "1st", max_length=3)
-    students = models.ManyToManyField(StudentProfile, related_name="subjects")
+    students = models.ManyToManyField(StudentProfile, related_name="subjects", through="StudentGrade")
     def __str__(self):
         return f'{self.subject.subject_name}  | {self.teacher.user.first_name}'
     class Meta:
@@ -66,6 +65,6 @@ class SubjectTeacher(models.Model):
 
 class StudentGrade(models.Model):
     subject_teacher = models.ForeignKey("SubjectTeacher", on_delete=models.CASCADE)
-    student = models.ForeignKey('StudentProfile', on_delete=models.CASCADE)
-    grade = models.IntegerField()
+    student = models.ForeignKey('StudentProfile', on_delete=models.CASCADE, related_name="grade")
+    grade = models.IntegerField(default=0)
 

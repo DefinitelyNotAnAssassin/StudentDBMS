@@ -1,60 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Information</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+{% extends "ViewsApplications/base.html" %} 
 
-</head>
-<body>
-
-<div class="row mb-2">
-    <div class="col">ID Number : {{user.id_number}}</div>
-    <div class="col">Name : {{user.first_name}} {{user.last_name}}</div>
-</div>
-
-<div class="row">
-
-    <div class="col">
-        Section : {{user.student.section.section}}
-
-    </div>
-    <div class="col">
-        Adviser : {{user.student.section.adviser}}
-
-    </div>
-</div>
+{% block content %}
 
 
-<br>
-<br>
-<center>Enrolled Subjects</center>
-<br>
-<br>
+<div id="jsGrid"></div>
 
-<table class="table">
+<div id="table"></div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    var clients = [
+        { "Name": "Otto Clay", "Age": 25, "Country": 1, "Address": "Ap #897-1459 Quam Avenue", "Married": false },
+        { "Name": "Connor Johnston", "Age": 45, "Country": 2, "Address": "Ap #370-4647 Dis Av.", "Married": true },
+        { "Name": "Lacey Hess", "Age": 29, "Country": 3, "Address": "Ap #365-8835 Integer St.", "Married": false },
+        { "Name": "Timothy Henson", "Age": 56, "Country": 1, "Address": "911-5143 Luctus Ave", "Married": true },
+        { "Name": "Ramona Benton", "Age": 32, "Country": 3, "Address": "Ap #614-689 Vehicula Street", "Married": false }
+    ];
+ 
+    var countries = [
+        { Name: "", Id: 0 },
+        { Name: "United States", Id: 1 },
+        { Name: "Canada", Id: 2 },
+        { Name: "United Kingdom", Id: 3 }
+    ];
+ 
+    $("#jsGrid").jsGrid({
+        width: "100%",
+        height: "400px",
+ 
+        inserting: true,
+        editing: true,
+        sorting: true,
+        paging: true,
+ 
+        data: clients,
+ 
+        fields: [
+            { name: "Name", type: "text", width: 150, validate: "required" },
+            { name: "Age", type: "number", width: 50 },
+            { name: "Address", type: "text", width: 200 },
+            { name: "Country", type: "select", items: countries, valueField: "Id", textField: "Name" },
+            { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+            { type: "control" }
+        ]
+    });
+</script>
 
 
-<tr class="row">
-    <th class="col">Subject</th>
-    <th class="col">Teacher</th>
-    <th class="col">Quarter</th>
-</tr>
 
-{% for i in subjects %}
-<tr class="row">
-    <td class="col">{{i.subject}}</td>
-    <td class="col">{{i.teacher}}</td>
-    <td class="col">{{i.semester}}</td>
-</tr>
 
-{% endfor %}
 
-</table>
 
+<script>
     
-</body>
-</html>
+
+ 
+
+
+    $("#table").jsGrid({
+        width: "100%",
+        height: "auto",
+      
+        autoload:   true,
+        paging:     true,
+        pageSize:   5,
+        pageButtonCount: 5,
+        pageIndex:  1,
+      
+        controller: {
+          loadData: function(filter) {
+            return $.ajax({
+              url: "/api/get_table",
+              dataType: "json"
+            });
+          }
+        },
+        fields: [
+          {name: "name", width: 50},
+          {name: "full_name", width: 100}
+        ]
+      });
+</script>
+{% endblock %}
