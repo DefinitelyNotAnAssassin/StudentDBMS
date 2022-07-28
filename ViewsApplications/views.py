@@ -1,3 +1,4 @@
+from tokenize import Single
 from traceback import format_list
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -7,8 +8,13 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from ViewsApplications.forms import AccountForm
 from django.views.generic import ListView
-
+from ViewsApplications.filters import *
+from .tables import StudentTable
+from django_tables2 import SingleTableView
 # Create your views here.
+
+
+
 
 def index(request):
     items = {
@@ -23,7 +29,10 @@ def login(request):
     if form.is_valid():
         user = authenticate(request, username = form.cleaned_data.get("username"), password = form.cleaned_data.get("password"))
         auth_login(request, user)
-        url = redirect("student information")
+        if not user.is_registrar:
+          url = redirect("student information")
+        elif user.is_registrar:
+            url = redirect("registrar module")
         return url
     else:
         return HttpResponse("Invalid User")
@@ -45,11 +54,14 @@ def student_information(request):
 def regisrar_module(request):
     if request.user.is_registrar:
         form = AccountForm()
+        table = StudentTable(StudentProfile.objects.all())
+        filter = StudentAccountFilter()
         data = SubjectTeacher.objects.all()
-        print(data.values())
         items = {
             "form": form,
-            'data': data
+            'data': data,
+            "filter": filter,
+            "table": table
         }
         return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
