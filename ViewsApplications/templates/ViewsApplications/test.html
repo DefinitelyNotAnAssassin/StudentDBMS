@@ -7,3 +7,8 @@
     </form>
 {% endif %}
 {% render_table table 'django_tables2/bootstrap.html' %}
+
+{% for i in table %}
+
+{{i}}
+{% endfor %}

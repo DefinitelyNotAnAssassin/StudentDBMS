@@ -14,15 +14,6 @@ from django_tables2 import SingleTableView
 # Create your views here.
 
 
-from django_filters.views import FilterView
-from django_tables2.views import SingleTableMixin
-
-
-class FilteredStudent(SingleTableMixin, FilterView):
-    table_class = StudentTable
-    model = StudentProfile
-    template_name = "ViewsApplications/test.html"
-    filterset_class = StudentAccountFilter
 
 def index(request):
     items = {
@@ -69,6 +60,7 @@ def regisrar_module(request):
             "filter": filtr,
             "table": table
         }
+        print(table.rows)
         return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
         return HttpResponse("You are not allowed here")
