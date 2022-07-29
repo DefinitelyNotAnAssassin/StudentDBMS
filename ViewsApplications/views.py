@@ -14,7 +14,15 @@ from django_tables2 import SingleTableView
 # Create your views here.
 
 
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
 
+
+class FilteredStudent(SingleTableMixin, FilterView):
+    table_class = StudentTable
+    model = StudentProfile
+    template_name = "ViewsApplications/test.html"
+    filterset_class = StudentAccountFilter
 
 def index(request):
     items = {
@@ -54,15 +62,42 @@ def student_information(request):
 def regisrar_module(request):
     if request.user.is_registrar:
         form = AccountForm()
-        table = StudentTable(StudentProfile.objects.all())
-        filter = StudentAccountFilter()
-        data = SubjectTeacher.objects.all()
+        filtr = StudentAccountFilter(request.GET)
+        table = StudentTable(filtr.qs or StudentProfile.objects.all())
         items = {
             "form": form,
-            'data': data,
-            "filter": filter,
+            "filter": filtr,
             "table": table
         }
         return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
         return HttpResponse("You are not allowed here")
+        
+@login_required
+def search_result(request):
+  if request.user.is_registrar:
+    filtr = StudentAccountFilter(request.GET, queryset = StudentProfile.objects.all())
+    table = StudentTable(filtr.qs)
+    context = {
+      "table": table,
+      "filter": filtr
+    }
+    return render(request, "ViewsApplications/search_result.html", context = context)
+  else:
+    return HttpResponse('Not allowed.')
+
+def view_student(request):
+  if request.user.is_registrar:
+    filtr = StudentAccountFilter(request.GET, queryset = StudentProfile.objects.all())
+    table = StudentTable(filtr.qs)
+    context = {
+      "table": table,
+      "filter": filtr
+    }
+    return render(request, "ViewsApplications/view_student.html", context = context)
+  else:
+    return HttpResponse('Not allowed.')
+
+
+def test(request):
+  return HttpResponse("Hi")

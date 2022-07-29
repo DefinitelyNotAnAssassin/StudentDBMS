@@ -5,3 +5,6 @@ class StudentTable(tables.Table):
     class Meta:
         model = StudentProfile
         fields = ['user__first_name', 'section']
+        
+        
+        

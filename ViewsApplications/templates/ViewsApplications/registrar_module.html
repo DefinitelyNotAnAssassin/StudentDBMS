@@ -15,7 +15,10 @@
 {% block content %}
 
 {% load django_tables2 %}
-
+<form action="" method="get" accept-charset="utf-8">
+{{filter.form}}
+<button class="btn btn-secondary" type="submit">Search</button>
+</form>
 
 {% render_table table %}
 
