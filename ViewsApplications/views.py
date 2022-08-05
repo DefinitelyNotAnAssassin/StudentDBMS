@@ -60,7 +60,6 @@ def regisrar_module(request):
             "filter": filtr,
             "table": table
         }
-      
     
         return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
@@ -69,13 +68,8 @@ def regisrar_module(request):
 @login_required
 def search_result(request):
   if request.user.is_registrar:
-    filtr = StudentAccountFilter(request.GET, queryset = StudentProfile.objects.all())
-    table = StudentTable(filtr.qs)
-    context = {
-      "table": table,
-      "filter": filtr
-    }
-    return render(request, "ViewsApplications/search_result.html", context = context)
+    
+    return ""
   else:
     return HttpResponse('Not allowed.')
 
