@@ -54,13 +54,14 @@ def regisrar_module(request):
     if request.user.is_registrar:
         form = AccountForm()
         filtr = StudentAccountFilter(request.GET)
-        table = StudentTable(filtr.qs or StudentProfile.objects.all())
+        table = StudentTable(filtr.qs)
         items = {
             "form": form,
             "filter": filtr,
             "table": table
         }
-        print(table.rows)
+      
+    
         return render(request, "ViewsApplications/registrar_module.html", context = items)
     else:
         return HttpResponse("You are not allowed here")

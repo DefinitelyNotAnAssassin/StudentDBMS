@@ -2,34 +2,45 @@
 
 
 
-{% block head %}
-
-
-{% endblock %}
-
-
 {% block content %}
 
-
-
-
-{% load django_tables2 %}
 <form action="" method="get" accept-charset="utf-8">
-{{filter.form}}
-<button class="btn btn-secondary" type="submit">Search</button>
+  {{filter.form}}
+  <button type="submit">Search</button>
+  
 </form>
 
-{% render_table table %}
 
 
-{% for data in table.as_values %}
 
-{{data}}
+
+<table class="table">
+  
+  <thead>
+    <tr class="">
+      <td class="">ID #</td>
+      <td class="">Firstname</td>
+      <td class="">Lastname</td>
+      <td class="">Section</td>
+    </tr>
+    
+    
+  </thead>
+  
+{% for row in table.rows %}
+
+
+<tr class="">
+{% for column, cell in row.items %}
+
+<td class="">{{cell}}</td>
+
+{% endfor %}
+</tr>
 
 {% endfor %}
 
-
-{{table.as_html}}
-
+  
+</table>
 
 {% endblock %}
