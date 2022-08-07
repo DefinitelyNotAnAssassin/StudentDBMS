@@ -6,7 +6,7 @@ from Student_Account.models import Account, StudentProfile, Class_Section, Subje
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
-from ViewsApplications.forms import AccountForm
+from ViewsApplications.forms import AccountForm, GradeForm
 from django.views.generic import ListView
 from ViewsApplications.filters import *
 from .tables import StudentTable
@@ -76,4 +76,19 @@ def search_result(request, section, student_id):
   else:
     return HttpResponse('Not allowed.')
 
+@login_required
+def edit_grade(request, id):
+    if request.user.is_registrar:
+        gradeObj = StudentGrade.objects.get(id = id)
+        print(gradeObj)
+        form = GradeForm(instance=gradeObj)
+        items = {
 
+            "grade": gradeObj,
+            "form": form
+
+
+        }
+        return render(request, "ViewsApplications/edit_grade.html", context = items)
+    else:
+        return HttpResponse("You are not allowed here.")

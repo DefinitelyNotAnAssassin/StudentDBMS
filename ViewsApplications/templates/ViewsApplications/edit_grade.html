@@ -1,0 +1,17 @@
+{% extends "ViewsApplications/base.html" %}
+
+
+{% block content %}
+<form action="/api/edit_grade" class="form-control" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="hidden" name="id" value="{{grade.id}}">
+    <button type="submit" class="btn btn-dark">Update Grade</button>
+
+
+</form>
+
+
+
+
+{% endblock %}

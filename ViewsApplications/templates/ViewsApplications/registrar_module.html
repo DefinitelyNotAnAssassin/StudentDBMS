@@ -1,21 +1,11 @@
-{% extends "ViewsApplications/base.html" %}
-
-
-
-{% block content %}
+{% extends "ViewsApplications/base.html" %} {% block content %}
 
 <form action="" class="form-control" method="get" accept-charset="utf-8">
   {{filter.form}}
   <button class="btn btn-dark" type="submit">Search</button>
-  
 </form>
 
-
-
-
-
 <table class="table">
-  
   <thead>
     <tr class="">
       <td class="">ID #</td>
@@ -23,42 +13,33 @@
       <td class="">Lastname</td>
       <td class="">Section</td>
     </tr>
-    
-    
   </thead>
-  
-{% for row in table.rows %}
 
 
-<tr class="" onclick = "gen(this)">
-{% for column, cell in row.items %}
 
-<td class="">{{cell}}</td>
-
-{% endfor %}
-
-
-</tr>
-
-
-{% endfor %}
 
   
+  {% for row in table.rows %}
+
+  <tr class="" onclick="gen(this)">
+    {% for column, cell in row.items %}
+
+    <td class="">{{cell}}</td>
+
+    {% endfor %}
+  </tr>
+
+  {% endfor %}
 </table>
 
-
 <script type="text/javascript" charset="utf-8">
-    function gen(e){
-  var studentID = e.getElementsByTagName("td")["0"].innerText
-  var firstName =  e.getElementsByTagName("td")["1"].innerText
-  var lastName = e.getElementsByTagName("td")["2"].innerText
-  var classSection = e.getElementsByTagName("td")["3"].innerText
-  
-  window.location.href = `/student/${classSection}/${studentID}`
-    
-   
-  
+  function gen(e) {
+    var studentID = e.getElementsByTagName("td")["0"].innerText;
+    var firstName = e.getElementsByTagName("td")["1"].innerText;
+    var lastName = e.getElementsByTagName("td")["2"].innerText;
+    var classSection = e.getElementsByTagName("td")["3"].innerText;
 
-}
-  </script>
+    window.location.href = `/student/${classSection}/${studentID}`;
+  }
+</script>
 {% endblock %}
