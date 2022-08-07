@@ -20,19 +20,39 @@
     <th>Subject</th>
     <th>Teacher</th>
     <th>Grade</th>
+    <th>Reference #</th>
   </thead>
   
   <tbody>
     {% for grade in subjects %}
     
-    <tr>
+    <tr onclick="gen(this)">
       <td>{{grade.subject_teacher.subject}}</td>
       <td>{{grade.subject_teacher.teacher}}</td>
       <td>{{grade.grade}}</td>
+      <td class="">{{grade.id}}</td>
     </tr>
     
     {% endfor %}
   </tbody>
 </table>
+
+
+
+<script type="text/javascript" charset="utf-8">
+    function gen(e){
+  var subject = e.getElementsByTagName("td")["0"].innerText
+  var teacher =  e.getElementsByTagName("td")["1"].innerText
+  var id = e.getElementsByTagName("td")["2"].innerText
+  
+  window.location.href = `/subject/edit_grade/${id}`
+    
+   
+  
+
+}
+  </script>
+
+
 
 {% endblock %}

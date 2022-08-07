@@ -1,7 +1,7 @@
 from tokenize import Single
 from traceback import format_list
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from Student_Account.models import Account, StudentProfile, Class_Section, SubjectTeacher
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login as auth_login
@@ -18,8 +18,6 @@ from django_tables2 import SingleTableView
 def index(request):
     items = {
         "form": AuthenticationForm()
-
-
     }
     return render(request, "ViewsApplications/index.html", context = items)
 
@@ -40,7 +38,7 @@ def login(request):
 def student_information(request):
 
     items = {
-        "user" : request.user,
+        "user" : request.user.student,
         'subjects': request.user.student.grade.all()
     }
 
@@ -66,25 +64,16 @@ def regisrar_module(request):
         return HttpResponse("You are not allowed here")
         
 @login_required
-def search_result(request):
+def search_result(request, section, student_id):
   if request.user.is_registrar:
-    
-    return ""
-  else:
-    return HttpResponse('Not allowed.')
-
-def view_student(request):
-  if request.user.is_registrar:
-    filtr = StudentAccountFilter(request.GET, queryset = StudentProfile.objects.all())
-    table = StudentTable(filtr.qs)
-    context = {
-      "table": table,
-      "filter": filtr
+    student = get_object_or_404(StudentProfile.objects.filter(user = student_id))
+    items = {
+      "user" : student,
+      "subjects": student.grade.all()
     }
-    return render(request, "ViewsApplications/view_student.html", context = context)
+      
+    return render(request, "ViewsApplications/edit_student.html", context = items)
   else:
     return HttpResponse('Not allowed.')
 
 
-def test(request):
-  return HttpResponse("Hi")

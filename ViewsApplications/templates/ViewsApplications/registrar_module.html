@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<form action="" method="get" accept-charset="utf-8">
+<form action="" class="form-control" method="get" accept-charset="utf-8">
   {{filter.form}}
-  <button type="submit">Search</button>
+  <button class="btn btn-dark" type="submit">Search</button>
   
 </form>
 
@@ -30,7 +30,7 @@
 {% for row in table.rows %}
 
 
-<tr class="">
+<tr class="" onclick = "gen(this)">
 {% for column, cell in row.items %}
 
 <td class="">{{cell}}</td>
@@ -38,9 +38,6 @@
 {% endfor %}
 
 
-<td>
-  <button class="btn btn-dark" formaction="/student/{}/{}">View Student</button>
-</td>
 </tr>
 
 
@@ -49,4 +46,19 @@
   
 </table>
 
+
+<script type="text/javascript" charset="utf-8">
+    function gen(e){
+  var studentID = e.getElementsByTagName("td")["0"].innerText
+  var firstName =  e.getElementsByTagName("td")["1"].innerText
+  var lastName = e.getElementsByTagName("td")["2"].innerText
+  var classSection = e.getElementsByTagName("td")["3"].innerText
+  
+  window.location.href = `/student/${classSection}/${studentID}`
+    
+   
+  
+
+}
+  </script>
 {% endblock %}

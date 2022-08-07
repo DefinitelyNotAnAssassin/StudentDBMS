@@ -6,4 +6,4 @@ class StudentAccountFilter(filter.FilterSet):
 
     class Meta:
         model = StudentProfile
-        fields = ['user__first_name', 'user__last_name', 'section']
+        fields = ['user__id_number', 'user__first_name', 'user__last_name', 'section']
