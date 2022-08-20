@@ -32,7 +32,7 @@ class Class_Section(models.Model):
 
 class StudentProfile(models.Model):
 
-    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="student")
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="student", limit_choices_to={'is_student' : True}, unique=True)
     user.is_student = True
     
     section = models.ForeignKey(Class_Section, on_delete=models.CASCADE, related_name="students")
@@ -65,4 +65,7 @@ class StudentGrade(models.Model):
     subject_teacher = models.ForeignKey("SubjectTeacher", on_delete=models.CASCADE)
     student = models.ForeignKey('StudentProfile', on_delete=models.CASCADE, related_name="grade")
     grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.student} | {self.subject_teacher }'
 

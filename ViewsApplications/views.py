@@ -11,13 +11,15 @@ from django.views.generic import ListView
 from ViewsApplications.filters import *
 from .tables import StudentTable
 from django_tables2 import SingleTableView
+from .forms import *
 # Create your views here.
 
 
 
 def index(request):
     items = {
-        "form": AuthenticationForm()
+        "form": AuthenticationForm(),
+        'studentform': AddStudentForm(),
     }
     return render(request, "ViewsApplications/index.html", context = items)
 

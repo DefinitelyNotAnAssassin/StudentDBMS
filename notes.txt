@@ -1,0 +1,19 @@
+>>>>>> 08/15/22 <<<<<<
+Various permissions should be implemented. 
+
+Hierachy for the models
+
+
+
+Student > Teacher > Registrar > IT  Department 
+
+Now any other features would be optional but I already have done same shit.
+
+===== Experimental Features to be Considered to Implement =====
+
+1. A teacher could have their own UI for pushing the grades to the Registrar. ---- This kind of functionality make the system 
+more automatic, however it just poses more security risk ----
+
+2. A http response like system should be implemented. See https://github.com/DefinitelyNotAnAssassin/project-sipi/blob/master/upload.py for implementation.
+
+3.  

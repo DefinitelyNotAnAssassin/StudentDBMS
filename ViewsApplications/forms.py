@@ -7,6 +7,11 @@ class AccountForm(ModelForm):
         model = Account
         fields = ["username", "email", 'first_name', 'last_name']
 
+
+class AddStudentForm(ModelForm):
+    class Meta:
+        model = StudentProfile
+        fields = ['user', 'section']
 class GradeForm(ModelForm):
     class Meta:
         model = StudentGrade
